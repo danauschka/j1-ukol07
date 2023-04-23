@@ -18,10 +18,11 @@ public class SvatkySluzba {
     private final SeznamSvatku seznamSvatku;
 
     public SvatkySluzba() throws IOException {
-        // TODO načíst seznam svátků ze souboru svatky.json
+        seznamSvatku = objectMapper.readValue(cestaKDatum.toFile(), SeznamSvatku.class);
 
-        // Následující řádek po vlastní implementaci smažete.
-        seznamSvatku = null;
+        /*varianta2
+        seznamSvatku = objectMapper.readValue(Path.of("svatky.json").toFile(), SeznamSvatku.class);
+        */
     }
 
     public List<String> vyhledatSvatkyDnes() {
@@ -29,14 +30,15 @@ public class SvatkySluzba {
     }
 
     public List<String> vyhledatSvatkyKeDni(MonthDay day) {
-        // TODO
         // získat seznam svátků
         // převést na Stream
-        // pomocí metody filter() vybrat jen ty, které odpovídají zadanému dni (porovnat MonthDay pomocí metodyequals())
+        // pomocí metody filter() vybrat jen ty, které odpovídají zadanému dni (porovnat MonthDay pomocí metody equals())
         // pomocí metody map() získat z objektu jméno
         // pomocí toList() převést na List
 
-        // Následující řádek po vlastní implementaci smažete.
-        return List.of();
+        return seznamSvatku.getSvatky().stream()
+                .filter(s -> s.getDen().getMonth().equals(day))
+                .map(s -> s.getJmeno())
+                .toList();
     }
 }
