@@ -19,10 +19,6 @@ public class SvatkySluzba {
 
     public SvatkySluzba() throws IOException {
         seznamSvatku = objectMapper.readValue(cestaKDatum.toFile(), SeznamSvatku.class);
-
-        /*varianta2
-        seznamSvatku = objectMapper.readValue(Path.of("svatky.json").toFile(), SeznamSvatku.class);
-        */
     }
 
     public List<String> vyhledatSvatkyDnes() {
@@ -30,14 +26,8 @@ public class SvatkySluzba {
     }
 
     public List<String> vyhledatSvatkyKeDni(MonthDay day) {
-        // získat seznam svátků
-        // převést na Stream
-        // pomocí metody filter() vybrat jen ty, které odpovídají zadanému dni (porovnat MonthDay pomocí metody equals())
-        // pomocí metody map() získat z objektu jméno
-        // pomocí toList() převést na List
-
         return seznamSvatku.getSvatky().stream()
-                .filter(s -> s.getDen().getMonth().equals(day))
+                .filter(s -> s.getDen().equals(day))
                 .map(s -> s.getJmeno())
                 .toList();
     }
